@@ -14,6 +14,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use common\lib\TblcityLib;
 
 /**
  * Site controller
@@ -66,7 +67,21 @@ class SiteController extends Controller
             ],
         ];
     }
-
+    
+    public function beforeAction($action)
+    {
+        
+        \Yii::$app->view->params['cities'] = TblcityLib::find()->all();
+        
+        if (!parent::beforeAction($action)) {
+            return false;
+        }
+        
+        // other custom code here
+        
+        return true; // or false to not run the action
+    }
+    
     /**
      * Displays homepage.
      *
@@ -257,4 +272,6 @@ class SiteController extends Controller
             'model' => $model
         ]);
     }
+    
+    
 }
